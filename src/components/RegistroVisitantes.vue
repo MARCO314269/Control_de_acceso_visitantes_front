@@ -511,6 +511,7 @@
 
 <script>
 import {FormWizard, TabContent} from 'vue-form-wizard'
+import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import Vue from "vue";
 import store from "../store";
 import "vue-step-wizard/dist/vue-step-wizard.css";
@@ -529,7 +530,7 @@ const emaiRegex = new RegExp(
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
 export default {
-  name: "StepFormValidation",
+  name: "BasicStepperForm",
   mixins: [validationMixin],
   components: {
     FormWizard,
