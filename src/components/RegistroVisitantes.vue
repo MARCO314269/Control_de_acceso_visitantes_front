@@ -683,9 +683,10 @@ export default {
       return $dirty ? !$error : null;
     },
     async postRespuesta() {
+      const path_validacion_rostro_identificacion = "/validacion-rostro-identificacion"
       await axios 
         .post(
-          "http://127.0.0.1:5000/validacion-rostro-identificacion",
+          path_validacion_rostro_identificacion,
           this.form2
         )
         .then((response) => {
@@ -716,10 +717,11 @@ export default {
         });
     },
     obtenerinfoVisita() {
+      const path_detalle_visita = "/detalle-visita/"
       console.log(this.$route.params.id_detalle_visita);
       axios
         .get(
-          "http://127.0.0.1:5000/detalle-visita/" +
+          path_detalle_visita +
             this.$route.params.id_detalle_visita,
           {}
         )
@@ -861,6 +863,7 @@ export default {
       }, FLASH_TIMEOUT);
     },
     onSubmit() {
+      const path_visitantes_visita = "/visitantes/visita"
       this.form.email = this.form3.email;
       this.form.uuid_visitante = this.uuid_visitante;
       this.form.ruta_imagen_rostro = this.ruta_imagen_rostro;
@@ -868,7 +871,7 @@ export default {
       this.id_detalle_visita_aux = this.form.id_detalle_visita;
       console.log(this.form);
       axios
-        .post("http://127.0.0.1:5000/visitantes/visita", this.form)
+        .post(path_visitantes_visita, this.form)
         .then((response) => {
           this.uuid_visitante = response.data.uuid_visitante;
           this.url_visitante_id = this.url_visitante + response.data.id_visita;
@@ -893,12 +896,13 @@ export default {
         });
     },
     onSubmitFast() {
+      const path_visitantes_visita_rapida = "/visitantes/visita-rapida"
       this.form.id_detalle_visita = this.$route.params.id_detalle_visita;
       this.form.uuid_visitante = this.infovisitante.uuid_visitante;
       this.form.email = this.infovisitante.email;
       console.log(this.form);
       axios
-        .post("http://127.0.0.1:5000/visitantes/visita-rapida", this.form)
+        .post(path_visitantes_visita_rapida, this.form)
         .then((response) => {
           this.uuid_visitante = response.data.uuid_visitante;
           this.url_visitante_id = this.url_visitante + response.data.id_visita;
@@ -922,9 +926,10 @@ export default {
         });
     },
     buscaInfoPrevia() {
+      const path_visitantes_correo = "/visitantes/correo"
       if (this.form3.email) {
         axios
-          .post("http://localhost:5000/visitantes/correo", this.form3, {})
+          .post(path_visitantes_correo, this.form3, {})
           .then((response) => {
             this.infovisitante = response.data;
             console.log(
@@ -952,10 +957,10 @@ export default {
       //this.$refs['my-modal'].show();
     },
     getQR(mensaje) {
-      const path = "http://localhost:5000/imagen_QR";
+      const path_qr = "/imagen_QR";
       const data = { datos_para_qr: mensaje };
       axios
-        .post(path, data)
+        .post(path_qr, data)
         .then((response) => {
           this.img_data = response.data.encoded_qr_data;
           console.log(this.img_data);
