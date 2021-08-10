@@ -447,7 +447,9 @@
               <br/>
               <h4>{{ this.fecha_fin }}</h4>
               ha sido exitoso, favor de mostrar el siguiente QR al entrar:
-              <p>{{ this.url_visitante_id }}</p>
+              <a v-bind:href="''">
+                    {{ this.url_visitante_id }}
+              </a>
               <img :src="'data:image/jpeg;base64,' + img_data" />
             </div>
       </div>
