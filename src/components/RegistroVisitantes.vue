@@ -571,7 +571,7 @@ export default {
       ruta_imagen_identificacion: "",
       insert: false,
       id_detalle_visita_aux: 0,
-      url_visitante: "http://localhost:5000/api/visitas-ingreso/",
+      url_visitante: process.env.VUE_APP_QR,
       url_visitante_id: "",
       img_data: [],
       auto: 0,
