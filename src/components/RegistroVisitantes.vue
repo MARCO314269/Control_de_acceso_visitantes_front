@@ -25,7 +25,7 @@
         ></b-form-input>
         <b-form-invalid-feedback id="input-1-live-feedback"
           >Este es un campo obligatorio y debe ser una dirección de correo
-          electronico valida.</b-form-invalid-feedback
+          electrónico válida.</b-form-invalid-feedback
         >
         <!--small class="notValid">{{msgName}}</small-->
         <button
@@ -47,7 +47,7 @@
           <div class="row">
             <div class="col-6">
               <h4 style="text-align: center" class="inf_visit">
-                Encontramos esta informacion con tu correo:
+                Encontramos esta información con tu correo:
               </h4>
               <table class="table table-bordered table-striped mb-0">
                 <tbody class="inf_visit">
@@ -685,7 +685,7 @@ export default {
       return $dirty ? !$error : null;
     },
     async postRespuesta() {
-      const path_validacion_rostro_identificacion = "/validacion-rostro-identificacion"
+      const path_validacion_rostro_identificacion = "/api/validacion-rostro-identificacion"
       await axios 
         .post(
           path_validacion_rostro_identificacion,
@@ -719,7 +719,7 @@ export default {
         });
     },
     obtenerinfoVisita() {
-      const path_detalle_visita = "/detalle-visita/"
+      const path_detalle_visita = "/api/detalle-visita/"
       console.log(this.$route.params.id_detalle_visita);
       axios
         .get(
@@ -865,7 +865,7 @@ export default {
       }, FLASH_TIMEOUT);
     },
     onSubmit() {
-      const path_visitantes_visita = "/visitantes/visita"
+      const path_visitantes_visita = "/api/visitantes/visita"
       this.form.email = this.form3.email;
       this.form.uuid_visitante = this.uuid_visitante;
       this.form.ruta_imagen_rostro = this.ruta_imagen_rostro;
@@ -898,7 +898,7 @@ export default {
         });
     },
     onSubmitFast() {
-      const path_visitantes_visita_rapida = "/visitantes/visita-rapida"
+      const path_visitantes_visita_rapida = "/api/visitantes/visita-rapida"
       this.form.id_detalle_visita = this.$route.params.id_detalle_visita;
       this.form.uuid_visitante = this.infovisitante.uuid_visitante;
       this.form.email = this.infovisitante.email;
@@ -928,7 +928,7 @@ export default {
         });
     },
     buscaInfoPrevia() {
-      const path_visitantes_correo = "/visitantes/correo"
+      const path_visitantes_correo = "/api/visitantes/correo"
       if (this.form3.email) {
         axios
           .post(path_visitantes_correo, this.form3, {})
@@ -936,7 +936,7 @@ export default {
             this.infovisitante = response.data;
             console.log(
               "VIENDO INFORMACION COMPLETA DEL VISITANTE = " +
-                this.infovisitante.id_visita
+                this.infovisitante.id_visitante
             );
             console.log(this.infovisitante);
             this.closeInicio();
@@ -954,12 +954,12 @@ export default {
           store.commit("setSession", {});
         });
       } else {
-        console.log("NO ENCONTTRE NADA");
+        console.log("NO ENCONTRE NADA");
       }
       //this.$refs['my-modal'].show();
     },
     getQR(mensaje) {
-      const path_qr = "/imagen_QR";
+      const path_qr = "/api/imagen_QR";
       const data = { datos_para_qr: mensaje };
       axios
         .post(path_qr, data)
