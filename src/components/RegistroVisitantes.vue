@@ -447,9 +447,8 @@
               <br/>
               <h4>{{ this.fecha_fin }}</h4>
               ha sido exitoso, favor de mostrar el siguiente QR al entrar:
-              <a v-bind:href="''">
-                    {{ this.url_visitante_id }}
-              </a>
+              <h4><a v-bind:href="this.url_visitante_id">{{ this.url_visitante_id }}</a>
+              </h4>
               <img :src="'data:image/jpeg;base64,' + img_data" />
             </div>
       </div>
@@ -540,6 +539,7 @@ export default {
   },
    data() {
     return {
+      ayuda: "",
       maskphone: ['(', /\d/, /\d/, ') ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
       mensajemodal: "",
       animate: true,
@@ -874,13 +874,13 @@ export default {
       console.log(this.form);
       axios
         .post(path_visitantes_visita, this.form)
-        .then((response) => {
+        .then(response => {
           this.uuid_visitante = response.data.uuid_visitante;
-          this.url_visitante_id = this.url_visitante + response.data.id_visita;
+          this.ayuda = response.data.id_visita
+          this.url_visitante_id = this.url_visitante+this.ayuda;
           this.insert = response.data.insert;
           this.mostrarFormDatCont=false;
           this.getQR(this.url_visitante_id);
-          this.$refs["my-modal"].show();
           console.log(response.data);
           this.$v.form.$touch();
         })
@@ -902,16 +902,16 @@ export default {
       this.form.id_detalle_visita = this.$route.params.id_detalle_visita;
       this.form.uuid_visitante = this.infovisitante.uuid_visitante;
       this.form.email = this.infovisitante.email;
-      console.log(this.form);
       axios
         .post(path_visitantes_visita_rapida, this.form)
-        .then((response) => {
+        .then(response => {
           this.uuid_visitante = response.data.uuid_visitante;
-          this.url_visitante_id = this.url_visitante + response.data.id_visita;
+          this.ayuda = response.data.id_visita
+          this.url_visitante_id = this.url_visitante + this.ayuda;
           this.insert = response.data.insert;
           this.getQR(this.url_visitante_id);
-          this.$refs["my-modal"].show();
           console.log(response.data);
+          console.log(this.url_visitante_id);
           this.$v.form.$touch();
         })
         .catch((error) => {
@@ -936,7 +936,7 @@ export default {
             this.infovisitante = response.data;
             console.log(
               "VIENDO INFORMACION COMPLETA DEL VISITANTE = " +
-                this.infovisitante.id_visita
+                this.infovisitante.id_visitante
             );
             console.log(this.infovisitante);
             this.closeInicio();
@@ -958,15 +958,12 @@ export default {
       }
       //this.$refs['my-modal'].show();
     },
-    getQR(mensaje) {
-      const path_qr = "/imagen_QR";
-      const data = { datos_para_qr: mensaje };
-      axios
-        .post(path_qr, data)
-        .then((response) => {
-          this.img_data = response.data.encoded_qr_data;
-          console.log(this.img_data);
-        })
+      getQR (mensaje_para_qr) {
+      const path_imagen_qr = '/imagen_QR'
+      const data = { "datos_para_qr": mensaje_para_qr }
+      axios.post(path_imagen_qr,data).then(response => {
+        this.img_data = response.data.encoded_qr_data
+      })
         .catch((error) => {
           this.mensaje_error =
             "Existe un problema con el servidor. Intenta nuevamente.";
