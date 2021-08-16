@@ -775,7 +775,14 @@ export default {
           this.$refs.camera.srcObject = stream;
         })
         .catch((error) => {
-          alert("Browser doesn't support or there is some errors." + error);
+          this.mensaje_error =
+            "No podemos acceder a tu cámara. Intenta con otro navegador.";
+          Vue.$toast.open({
+            message: this.mensaje_error,
+            type: "error",
+            duration: 8000,
+          });
+          console.log("Browser doesn't support or there is some errors." + error);
         });
     },
     stopCameraStream() {
@@ -828,7 +835,14 @@ export default {
           this.$refs.camera2.srcObject = stream;
         })
         .catch((error) => {
-          alert("Browser doesn't support or there is some errors." + error);
+          this.mensaje_error =
+            "No podemos acceder a tu cámara. Intenta con otro navegador.";
+          Vue.$toast.open({
+            message: this.mensaje_error,
+            type: "error",
+            duration: 8000,
+          });
+          console.log("Browser doesn't support or there is some errors." + error);
         });
     },
     addToPhotoGallery(dataURI) {
