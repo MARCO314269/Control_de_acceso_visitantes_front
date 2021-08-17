@@ -50,39 +50,15 @@
                 Encontramos esta información con tu correo:
               </h4>
               <table class="table table-bordered table-striped mb-0">
-                <tbody class="inf_visit">
-                  <tr>
-                    <td>NOMBRE</td>
-                    <td>{{ infovisitante.nombre }}</td>
-                  </tr>
-                  <tr>
-                    <td>APELLIDO PATERNO</td>
-                    <td>{{ infovisitante.apellido_paterno }}</td>
-                  </tr>
-                  <tr>
-                    <td>APELLIDO MATERNO</td>
-                    <td>{{ infovisitante.apellido_materno }}</td>
-                  </tr>
-                  <tr>
-                    <td>TELEFONO CELULAR</td>
-                    <td>{{ infovisitante.telefono_celular }}</td>
-                  </tr>
-                  <tr>
-                    <td>TELEFONO PARTICULAR</td>
-                    <td>{{ infovisitante.telefono_particular }}</td>
-                  </tr>
-                  <tr>
-                    <td>EMAIL</td>
-                    <td>{{ infovisitante.email }}</td>
-                  </tr>
-                  <tr>
-                    <td>NOMBRE CONTACTO DE EMERGENCIA</td>
-                    <td>{{ infovisitante.nombre_contacto_emergencia }}</td>
-                  </tr>
-                  <tr>
-                    <td>NUMERO DE EMERGENCIA</td>
-                    <td>{{ infovisitante.numero_emergencia }}</td>
-                  </tr>
+                 <tbody 
+                  v-for="(value, key) in infovisitante"
+                  :key="key"
+                  class="inf_visit"
+                >
+                  <tr v-if="key != 'id_visitante'">
+                    <td>{{ key }}:</td>
+                    <td>{{ value }}</td>
+                  </tr> 
                 </tbody>
               </table>
             </div>
@@ -366,7 +342,6 @@
               >
                 <b-form-input  v-mask="maskphone"
                   id="input-5"
-                  type="telefono_celular"
                   v-model.trim="$v.form.telefono_celular.$model"
                   :state="validateState('telefono_celular')"
                   placeholder="Ingresa tu telefono celular"
@@ -455,32 +430,6 @@
     </div>
 
 
-    <modal
-      name="modal-fallo"
-      :clickToClose="false"
-      :reset="true"
-      :width="480"
-      :height="245"
-    >
-      <div class="card">
-        <div class="card-header">Información</div>
-        <div class="card-body">
-          <div class="form-group">
-            <h6>
-              Tu informacion NO se guardo correctamente, intenta nuevamnete
-            </h6>
-          </div>
-          <div class="form-group my-4" style="text-align: right">
-            <b-button
-              variant="info"
-              @click="closeModalFallo"
-              @submit="resetForm"
-              >Aceptar</b-button
-            >
-          </div>
-        </div>
-      </div> </modal
-    ><!-- ends modal-->
 
   <modal
       name="modal-pasos"
@@ -516,7 +465,6 @@ import 'vue-form-wizard/dist/vue-form-wizard.min.css'
 import Vue from "vue";
 import store from "../store";
 import "vue-step-wizard/dist/vue-step-wizard.css";
-import router from "../router";
 import axios from "axios";
 import "vue-range-slider/dist/vue-range-slider.css";
 import { validationMixin } from "vuelidate";
@@ -542,14 +490,10 @@ export default {
       ayuda: "",
       maskphone: ['(', /\d/, /\d/, ') ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
       mensajemodal: "",
-      animate: true,
       nombre_visita: "",
       fecha_inicio: "",
       fecha_fin: "",
       email: "",
-      idvisita: "",
-      infovisitante: "",
-      imagen: this.$refs.imagenrostro,
       generos: [{ text: "Seleccionar", value: null }, "Masculino", "Femenino"],
       isCameraOpen: false,
       isCameraOpen2: false,
@@ -561,18 +505,12 @@ export default {
       match: "",
       mostrarForm: true,
       mostrarForm1: "",
-      formRegRapido: "",
-      mostrarCamaras: true,
-      mostrarCamaraRostro: true,
-      mostrarFormDatPers: true,
-      mostrarFormDatCont: false,
       mostrarDatosCorreo: false,
       mensaje: "",
       uuid_visitante: "",
       ruta_imagen_rostro: "",
       ruta_imagen_identificacion: "",
       insert: false,
-      id_detalle_visita_aux: 0,
       url_visitante: process.env.VUE_APP_QR,
       url_visitante_id: "",
       img_data: [],
@@ -581,6 +519,19 @@ export default {
       isPhotoTaken2: false,
       primerpaso: false,
       segundopaso: false,
+      infovisitante_for_fast: null,
+      infovisitante: {
+         "id_visitante": "this.infovisitante.id_visitante",
+        "NOMBRE": "this.infovisitante.nombre",
+        "APELLIDO PATERNO": "this.infovisitante.apellido_paterno",
+        "APELLIDO MATERNO": "this.infovisitante.apellido_materno",
+        "TELEFONO CELULAR": "this.infovisitante.telefono_celular",
+        "TELEFONO PARTICULAR": "this.infovisitante.telefono_particular",
+        "EMAIL": "this.infovisitante.email",
+        "NOMBRE CONTACTO DE EMERGENCIA":
+          "this.infovisitante.nombre_contacto_emergencia",
+        "NUMERO DE EMERGENCIA": "this.infovisitante.numero_emergencia",
+      },
       form: {
         id_detalle_visita: this.$route.params.id_detalle_visita,
         uuid_visitante: "",
@@ -629,18 +580,6 @@ export default {
     form3: {
       email: { required, email },
     },
-  },
-  watch: {
-      telefono_celular(){
-        var x = this.$v.form.telefono_celular.replace(/\D/g, '').match(/(\d{0,2})(\d{0,4})(\d{0,4})/);
-        this.$v.form.telefono_celular = !x[2] && !x[3] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
-        this.msgTel="";
-        this.classTel="greenColor correct";
-        if(this.$v.form.telefono_celular.length!=14) {  // mejor poner aqui una expresion regular
-          this.msgTel="El teléfono es incorrecto. Recuerda que te enviaremos un sms de confirmación para completar el registro.";
-          this.classTel="redColor incorrect";
-        }
-      }
   },
   computed: {
     habilitaBoton: function () {
@@ -698,11 +637,9 @@ export default {
           this.ruta_imagen_identificacion = response.data.ruta_imagen_identificacion;
           this.mensaje = response.data.mensaje;
           this.match = response.data.match;
-          this.mostrarCamaras = !this.match;
           this.toggleCamera();
           this.toggleCamera2();
           this.stopCameraStream();
-          this.$modal.show("modal-camaras");
           // alert(response.data.mensaje);
         })
         .catch((error) => {
@@ -745,12 +682,6 @@ export default {
           console.log(error);
           store.commit("setSession", {});
         });
-    },
-    closeModalCamaras() {
-      this.$modal.hide("modal-camaras");
-    },
-    closeModalFallo() {
-      this.$modal.hide("modal-fallo");
     },
     closeModalPasos() {
       this.$modal.hide("modal-pasos");
@@ -884,7 +815,6 @@ export default {
       this.form.uuid_visitante = this.uuid_visitante;
       this.form.ruta_imagen_rostro = this.ruta_imagen_rostro;
       this.form.ruta_imagen_identificacion = this.ruta_imagen_identificacion;
-      this.id_detalle_visita_aux = this.form.id_detalle_visita;
       console.log(this.form);
       axios
         .post(path_visitantes_visita, this.form)
@@ -893,7 +823,6 @@ export default {
           this.ayuda = response.data.id_visita
           this.url_visitante_id = this.url_visitante+this.ayuda;
           this.insert = response.data.insert;
-          this.mostrarFormDatCont=false;
           this.getQR(this.url_visitante_id);
           console.log(response.data);
           this.$v.form.$touch();
@@ -914,8 +843,8 @@ export default {
     onSubmitFast() {
       const path_visitantes_visita_rapida = "/api/visitantes/visita-rapida"
       this.form.id_detalle_visita = this.$route.params.id_detalle_visita;
-      this.form.uuid_visitante = this.infovisitante.uuid_visitante;
-      this.form.email = this.infovisitante.email;
+      this.form.uuid_visitante = this.infovisitante_for_fast.uuid_visitante;
+      this.form.email = this.infovisitante_for_fast.email;
       axios
         .post(path_visitantes_visita_rapida, this.form)
         .then(response => {
@@ -947,12 +876,21 @@ export default {
         axios
           .post(path_visitantes_correo, this.form3, {})
           .then((response) => {
-            this.infovisitante = response.data;
+              this.infovisitante_for_fast = response.data; 
             console.log(
               "VIENDO INFORMACION COMPLETA DEL VISITANTE = " +
                 this.infovisitante.id_visitante
             );
             console.log(this.infovisitante);
+            this.infovisitante["id_visitante"] = response.data.id_visitante;
+            this.infovisitante["NOMBRE"] = response.data.nombre;
+            this.infovisitante["APELLIDO PATERNO"] = response.data.apellido_paterno;
+            this.infovisitante["APELLIDO MATERNO"] = response.data.apellido_materno;
+            this.infovisitante["TELEFONO CELULAR"] = response.data.telefono_celular;
+            this.infovisitante["TELEFONO PARTICULAR"] = response.data.telefono_particular;
+            this.infovisitante["EMAIL"] = response.data.email;
+            this.infovisitante["NOMBRE CONTACTO DE EMERGENCIA"] = response.data.nombre_contacto_emergencia;
+            this.infovisitante["NUMERO DE EMERGENCIA"] = response.data.numero_emergencia;
             this.closeInicio();
           })
           .catch((error) => {
@@ -1025,9 +963,6 @@ export default {
       this.toggleCamera2();
       this.stopCameraStream();
     },
-    openConfirmaPage: function () {
-      router.push({ name: "ConfirmaRegistro" });
-    },
     openRegistro() {
       this.mostrarForm1 = true;
     },
@@ -1043,18 +978,6 @@ export default {
     },
     openInicio() {
       this.mostrarForm = true;
-    },
-    openDatosContact() {
-      this.mostrarFormDatCont = true;
-    },
-    closeDatosPers() {
-      this.mostrarFormDatPers = false;
-    },
-    openRegRapido() {
-      this.formRegRapido = true;
-    },
-    claseRegRapido() {
-      this.formRegRapido = false;
     },
     closeModalQR() {
       this.insert = false;
