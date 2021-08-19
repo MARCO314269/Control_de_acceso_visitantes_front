@@ -422,8 +422,8 @@
               <br/>
               <h4>{{ this.fecha_fin }}</h4>
               ha sido exitoso, favor de mostrar el siguiente QR al entrar:
-              <h4><a v-bind:href="this.url_visitante_id">{{ this.url_visitante_id }}</a>
-              </h4>
+              <!-- <h4><a v-bind:href="this.url_visitante_id"></a>
+              </h4> -->
               <img :src="'data:image/jpeg;base64,' + img_data" />
             </div>
       </div>
@@ -820,8 +820,9 @@ export default {
         .post(path_visitantes_visita, this.form)
         .then(response => {
           this.uuid_visitante = response.data.uuid_visitante;
-          this.ayuda = response.data.id_visita
-          this.url_visitante_id = this.url_visitante+this.ayuda;
+          /* this.ayuda = response.data.id_visita
+          this.url_visitante_id = this.url_visitante+this.ayuda; */
+          this.url_visitante_id = this.url_visitante + response.data.id_visita;
           this.insert = response.data.insert;
           this.getQR(this.url_visitante_id);
           console.log(response.data);
@@ -849,8 +850,9 @@ export default {
         .post(path_visitantes_visita_rapida, this.form)
         .then(response => {
           this.uuid_visitante = response.data.uuid_visitante;
-          this.ayuda = response.data.id_visita
-          this.url_visitante_id = this.url_visitante + this.ayuda;
+          /* this.ayuda = response.data.id_visita
+          this.url_visitante_id = this.url_visitante + this.ayuda; */
+          this.url_visitante_id = this.url_visitante + response.data.id_visita;
           this.insert = response.data.insert;
           this.getQR(this.url_visitante_id);
           console.log(response.data);
