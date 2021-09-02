@@ -50,7 +50,7 @@
                 Encontramos esta información con tu correo:
               </h4>
               <table class="table table-bordered table-striped mb-0">
-                 <tbody 
+                <tbody
                   v-for="(value, key) in infovisitante"
                   :key="key"
                   class="inf_visit"
@@ -58,7 +58,7 @@
                   <tr v-if="key != 'id_visitante'">
                     <td>{{ key }}:</td>
                     <td>{{ value }}</td>
-                  </tr> 
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -90,91 +90,93 @@
     <!-- AQUI COMIENZA PROCESO DE REGISTRO-->
     <div>
       <div class="card" v-if="mostrarForm1">
-          <div class="container my-4">
-            <div class="card-header">
-                <label class="control-label h1">Registro de Visitantes</label>
-                <h6>
-                  Para dar de alta a un visitante se requiere verificar su
-                  identidad.
-                </h6>
-                <!-- <h6>
+        <div class="container my-4">
+          <div class="card-header">
+            <label class="control-label h1">Registro de Visitantes</label>
+            <h6>
+              Para dar de alta a un visitante se requiere verificar su
+              identidad.
+            </h6>
+            <!-- <h6>
                   Se debe tomar una fotografía de frente y una imagen de su
                   identificación.
                 </h6> -->
-                <h6>
-                  Por favor, revisa que el lugar esté bien iluminado y que los
-                  datos de la identificación sean legibles en la imagen.
-                </h6>
-              </div>
-  <form-wizard title="" subtitle="" 
-              color="#27ae60"
-              nextButtonText="SIGUIENTE"
-              backButtonText="ATRAS" 
-              finishButtonText="GUARDAR" 
-              :selected="true" 
-              @on-complete="onComplete">
-              
-              <br />
-    <tab-content title="Rostro" :before-change="validateTabUno">
-         <b-form>
-            <b-form-group>
-              
-              <h5>Por favor, captura una imagen con tu rostro de frente.</h5>
-              
-              <div>
-                <div v-if="isCameraOpen" class="camera-canvas">
-                  <video
-                    v-show="true"
-                    ref="camera"
-                    :width="canvasWidth"
-                    :height="canvasHeight"
-                    playsinline
-                    autoplay
-                  ></video>
-                <div>
-                  <br>
-                </div>
-                  
-                </div>
-                <div style="display: flex; justify-content: flex-start">
-                <img
-                  style="height: 100px"
-                  v-if="isCameraOpen"
-                  src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png"
-                  @click="capture"
-                />
-                <div class="camera-button">
-                  <button
-                    type="button"
-                    style="
-                      margin-left: 10%;
-                      background-color: white;
-                      border: 0px;
-                    "
-                    @click="toggleCamera"
-                  >
-                    <div v-show="!isCameraOpen">
-                      <h6>ROSTRO</h6>
+            <h6>
+              Por favor, revisa que el lugar esté bien iluminado y que los datos
+              de la identificación sean legibles en la imagen.
+            </h6>
+          </div>
+          <form-wizard
+            title=""
+            subtitle=""
+            color="#27ae60"
+            nextButtonText="SIGUIENTE"
+            backButtonText="ATRAS"
+            finishButtonText="GUARDAR"
+            :selected="true"
+            @on-complete="onComplete"
+          >
+            <br />
+            <tab-content title="Rostro" :before-change="validateTabUno">
+              <b-form>
+                <b-form-group>
+                  <h5>
+                    Por favor, captura una imagen con tu rostro de frente.
+                  </h5>
+
+                  <div>
+                    <div v-if="isCameraOpen" class="camera-canvas">
+                      <video
+                        v-show="true"
+                        ref="camera"
+                        :width="canvasWidth"
+                        :height="canvasHeight"
+                        playsinline
+                        autoplay
+                      ></video>
+                      <div>
+                        <br />
+                      </div>
                     </div>
-                    <div>
-                      <span v-if="!isCameraOpen"
-                        ><img
-                          style="height: 100px"
-                          class="button-img"
-                          src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png"
-                      /></span>
+                    <div style="display: flex; justify-content: flex-start">
+                      <img
+                        style="height: 5%"
+                        v-if="isCameraOpen"
+                        src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png"
+                        @click="capture"
+                      />
+                      <div class="camera-button">
+                        <button
+                          type="button"
+                          style="
+                            margin-left: 10%;
+                            background-color: white;
+                            border: 0px;
+                          "
+                          @click="toggleCamera"
+                        >
+                          <div v-show="!isCameraOpen">
+                            <h6>ROSTRO</h6>
+                          </div>
+                          <div>
+                            <span v-if="!isCameraOpen"
+                              ><img
+                                style="height: 5%"
+                                class="button-img"
+                                src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png"
+                            /></span>
+                          </div>
+                        </button>
+                      </div>
+                      <canvas
+                        v-show="isPhotoTaken"
+                        id="photoTaken"
+                        ref="canvas"
+                        :width="canvasWidthFoto"
+                        :height="canvasHeightFoto"
+                      ></canvas>
                     </div>
-                  </button>
-                </div>
-                <canvas
-                    v-show="isPhotoTaken"
-                    id="photoTaken"
-                    ref="canvas"
-                    :width="canvasWidthFoto"
-                    :height="canvasHeightFoto"
-                  ></canvas>
-              </div>
-                <!-- <button v-if="primerpaso"
+                    <!-- <button v-if="primerpaso"
                   :disabled="habilitaBoton3"
                   class="btn btn mr-2 button_color_red"
                   @click="onResetCamRostro"
@@ -182,74 +184,77 @@
                 >
                   Tomar otra fotografia
                 </button> -->
-              </div>
-            </b-form-group>
-          </b-form>
-    </tab-content>
+                  </div>
+                </b-form-group>
+              </b-form>
+            </tab-content>
 
-    <tab-content  title="Identificacion" :before-change="validateTabDos">
-          <b-form @submit="postRespuesta">
-            <b-form-group>
-                <br />
-                <h5>Por favor, captura una imagen del frente de tu identificación (INE).</h5>
-                <div>
-                  <div v-if="isCameraOpen2" class="camera-canvas">
-                    <video
-                      v-show="true"
-                      ref="camera2"
-                      :width="canvasWidth"
-                      :height="canvasHeight"
-                      playsinline
-                      autoplay
-                    ></video>
+            <tab-content title="Identificacion" :before-change="validateTabDos">
+              <b-form @submit="postRespuesta">
+                <b-form-group>
+                  <br />
+                  <h5>
+                    Por favor, captura una imagen del frente de tu
+                    identificación (INE).
+                  </h5>
                   <div>
-                    <br>
-                  </div>
-                </div>
-                  <div style="display: flex; justify-content: flex-start">
-                  <img
-                    style="height: 100px"
-                    v-if="isCameraOpen2"
-                    src="https://img.icons8.com/material-outlined/50/000000/camera--v1.png"
-                    class="button-img camera-shoot"
-                    @click="capture2"
-                  />
-                  <div class="camera-button">
-                    <button
-                      type="button"
-                      class="button is-rounded cam-button"
-                      style="
-                        margin-left: 10%;
-                        background-color: white;
-                        border: 0px;
-                      "
-                      @click="toggleCamera2"
-                    >
-                      <div v-show="!isCameraOpen2">
-                        <h6>IDENTIFICACIÓN</h6>
-                      </div>
+                    <div v-if="isCameraOpen2" class="camera-canvas">
+                      <video
+                        v-show="true"
+                        ref="camera2"
+                        :width="canvasWidth"
+                        :height="canvasHeight"
+                        playsinline
+                        autoplay
+                      ></video>
                       <div>
-                        <span v-if="!isCameraOpen2"
-                          ><img
-                            style="height: 100px"
-                            class="button-img"
-                            src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png"
-                        /></span>
+                        <br />
                       </div>
-                    </button>
+                    </div>
+                    <div style="display: flex; justify-content: flex-start">
+                      <img
+                        style="height: 5%"
+                        v-if="isCameraOpen2"
+                        src="https://img.icons8.com/material-outlined/50/000000/camera--v1.png"
+                        class="button-img camera-shoot"
+                        @click="capture2"
+                      />
+                      <div class="camera-button">
+                        <button
+                          type="button"
+                          class="button is-rounded cam-button"
+                          style="
+                            margin-left: 10%;
+                            background-color: white;
+                            border: 0px;
+                          "
+                          @click="toggleCamera2"
+                        >
+                          <div v-show="!isCameraOpen2">
+                            <h6>IDENTIFICACIÓN</h6>
+                          </div>
+                          <div>
+                            <span v-if="!isCameraOpen2"
+                              ><img
+                                style="height: 5%"
+                                class="button-img"
+                                src="https://img.icons8.com/material-outlined/50/000000/camera--v2.png"
+                            /></span>
+                          </div>
+                        </button>
+                      </div>
+                      <canvas
+                        v-show="isPhotoTaken2"
+                        id="photoTaken"
+                        ref="canvas2"
+                        :width="canvasWidthFoto"
+                        :height="canvasHeightFoto"
+                      ></canvas>
+                    </div>
                   </div>
-                    <canvas
-                      v-show="isPhotoTaken2"
-                      id="photoTaken"
-                      ref="canvas2"
-                      :width="canvasWidthFoto"
-                      :height="canvasHeightFoto"
-                    ></canvas>
-                </div>
-                </div>
-            </b-form-group>
+                </b-form-group>
 
-            <!-- <button v-if="segundopaso"
+                <!-- <button v-if="segundopaso"
               :disabled="habilitaBoton4"
               class="btn btn mr-2 button_color_red"
               type="reiniciar"
@@ -258,210 +263,210 @@
             >
               Tomar otra fotografia
             </button> -->
-          </b-form>
-    </tab-content>
-        <tab-content title="Datos generales" :before-change="validateTabTres">
+              </b-form>
+            </tab-content>
+            <tab-content
+              title="Datos generales"
+              :before-change="validateTabTres"
+            >
               <div class="form-group">
-                 <b-form-group
-                id="input-group-1"
-                label="Nombre(s):"
-                :class="className"
-                :v="$v.form.nombre"
-                label-for="input-1"
-              >
-                <b-form-input
-                  id="input-1"
-                  v-model="$v.form.nombre.$model"
-                  :state="validateState('nombre')"
-                  type="Nombre(s)"
-                  placeholder="Ingresa tu nombre"
-                ></b-form-input>
-                <b-form-invalid-feedback id="input-1-live-feedback"
-                  >Este es un campo obligatorio, no debe contener numeros y debe
-                  contener al menos 3 letras.</b-form-invalid-feedback
+                <b-form-group
+                  id="input-group-1"
+                  label="Nombre(s):"
+                  :class="className"
+                  :v="$v.form.nombre"
+                  label-for="input-1"
                 >
-              </b-form-group>
-              <b-form-group
-                id="input-group-2"
-                label="Apellido Paterno:"
-                label-for="input-2"
-              >
-                <b-form-input
-                  id="input-2"
-                  v-model="$v.form.apellido_paterno.$model"
-                  :state="validateState('apellido_paterno')"
-                  placeholder="Ingresa tu apellido paterno"
-                ></b-form-input>
-                <b-form-invalid-feedback id="input-1-live-feedback"
-                  >Este es un campo obligatorio, no debe contener numeros y debe
-                  contener al menos 3 letras.</b-form-invalid-feedback
+                  <b-form-input
+                    id="input-1"
+                    v-model="$v.form.nombre.$model"
+                    :state="validateState('nombre')"
+                    type="Nombre(s)"
+                    placeholder="Ingresa tu nombre"
+                  ></b-form-input>
+                  <b-form-invalid-feedback id="input-1-live-feedback"
+                    >Este es un campo obligatorio, no debe contener numeros y
+                    debe contener al menos 3 letras.</b-form-invalid-feedback
+                  >
+                </b-form-group>
+                <b-form-group
+                  id="input-group-2"
+                  label="Apellido Paterno:"
+                  label-for="input-2"
                 >
-              </b-form-group>
+                  <b-form-input
+                    id="input-2"
+                    v-model="$v.form.apellido_paterno.$model"
+                    :state="validateState('apellido_paterno')"
+                    placeholder="Ingresa tu apellido paterno"
+                  ></b-form-input>
+                  <b-form-invalid-feedback id="input-1-live-feedback"
+                    >Este es un campo obligatorio, no debe contener números y
+                    debe contener al menos 3 letras.</b-form-invalid-feedback
+                  >
+                </b-form-group>
 
-              <b-form-group
-                id="input-group-3"
-                label="Apellido Materno:"
-                label-for="input-3"
-              >
-                <b-form-input
-                  id="input-3"
-                  v-model="$v.form.apellido_materno.$model"
-                  :state="validateState('apellido_materno')"
-                  placeholder="Ingresa tu apellido materno"
-                ></b-form-input>
-                <b-form-invalid-feedback id="input-1-live-feedback"
-                  >Este campo no debe contener numeros y debe contener al menos
-                  3 letras.</b-form-invalid-feedback
+                <b-form-group
+                  id="input-group-3"
+                  label="Apellido Materno:"
+                  label-for="input-3"
                 >
-              </b-form-group>
+                  <b-form-input
+                    id="input-3"
+                    v-model="$v.form.apellido_materno.$model"
+                    :state="validateState('apellido_materno')"
+                    placeholder="Ingresa tu apellido materno"
+                  ></b-form-input>
+                  <b-form-invalid-feedback id="input-1-live-feedback"
+                    >Este campo no debe contener números y debe contener al
+                    menos 3 letras.</b-form-invalid-feedback
+                  >
+                </b-form-group>
 
-              <b-form-group
-                id="input-group-4"
-                label="Genero:"
-                label-for="input-4"
-              >
-                <b-form-select
-                  id="input-4"
-                  v-model="$v.form.genero.$model"
-                  :state="validateState('genero')"
-                  :options="generos"
-                  required
-                ></b-form-select>
-                <b-form-invalid-feedback id="input-1-live-feedback"
-                  >Debes elegir una opción.</b-form-invalid-feedback
+                <b-form-group
+                  id="input-group-4"
+                  label="Género:"
+                  label-for="input-4"
                 >
-              </b-form-group>
+                  <b-form-select
+                    id="input-4"
+                    v-model="$v.form.genero.$model"
+                    :state="validateState('genero')"
+                    :options="generos"
+                    required
+                  ></b-form-select>
+                  <b-form-invalid-feedback id="input-1-live-feedback"
+                    >Debes elegir una opción.</b-form-invalid-feedback
+                  >
+                </b-form-group>
               </div>
-    </tab-content>
-    <tab-content title="Datos de contacto" :before-change="validateTabCuatro">
-    <div class="form-group">
-      <b-form-group
-                id="input-group-5"
-                label="Telefono celular:"
-                label-for="input-5"
-              >
-                <b-form-input  v-mask="maskphone"
-                  id="input-5"
-                  v-model.trim="$v.form.telefono_celular.$model"
-                  :state="validateState('telefono_celular')"
-                  placeholder="Ingresa tu telefono celular"
-                ></b-form-input>
-                <b-form-invalid-feedback id="input-1-live-feedback"
-                  >Este es un campo obligatorio y debe contener 10
-                  digitos.</b-form-invalid-feedback
+            </tab-content>
+            <tab-content
+              title="Datos de contacto"
+              :before-change="validateTabCuatro"
+            >
+              <div class="form-group">
+                <b-form-group
+                  id="input-group-5"
+                  label="Teléfono celular:"
+                  label-for="input-5"
                 >
-              </b-form-group>
+                  <b-form-input
+                    v-mask="maskphone"
+                    id="input-5"
+                    v-model.trim="$v.form.telefono_celular.$model"
+                    :state="validateState('telefono_celular')"
+                    placeholder="Ingresa tu teléfono celular"
+                  ></b-form-input>
+                  <b-form-invalid-feedback id="input-1-live-feedback"
+                    >Este es un campo obligatorio y debe contener 10
+                    dígitos.</b-form-invalid-feedback
+                  >
+                </b-form-group>
 
-              <b-form-group
-                id="input-group-6"
-                label="Telefono particular:"
-                label-for="input-6"
-              >
-                <b-form-input v-mask="maskphone"
-                  id="input-6"
-                  @input="acceptNumber"
-                  v-model="$v.form.telefono_particular.$model"
-                  :state="validateState('telefono_particular')"
-                  placeholder="Ingresa tu telefono particular"
-                ></b-form-input>
-                <b-form-invalid-feedback id="input-1-live-feedback"
-                  >Este es un campo obligatorio y debe contener 10
-                  digitos.</b-form-invalid-feedback
+                <b-form-group
+                  id="input-group-6"
+                  label="Teléfono particular:"
+                  label-for="input-6"
                 >
-              </b-form-group>
-
-              <b-form-group
-                id="input-group-7"
-                label="Telefono de emergencia:"
-                label-for="input-7"
-              >
-                <b-form-input v-mask="maskphone"
-                  id="input-7"
-                  v-model="$v.form.numero_emergencia.$model"
-                  :state="validateState('numero_emergencia')"
-                  placeholder="Ingresa tu telefono para emergencias"
-                ></b-form-input>
-                <b-form-invalid-feedback id="input-1-live-feedback"
-                  >Este es un campo obligatorio y debe contener 10
-                  digitos.</b-form-invalid-feedback
+                  <b-form-input
+                    v-mask="maskphone"
+                    id="input-6"
+                    @input="acceptNumber"
+                    v-model="$v.form.telefono_particular.$model"
+                    :state="validateState('telefono_particular')"
+                    placeholder="Ingresa tu teléfono particular"
+                  ></b-form-input>
+                  <b-form-invalid-feedback id="input-1-live-feedback"
+                    >Este es un campo obligatorio y debe contener 10
+                    dígitos.</b-form-invalid-feedback
+                  >
+                </b-form-group>
+                <b-form-group
+                  id="input-group-8"
+                  label="Nombre de tu contacto de emergencia:"
+                  label-for="input-8"
                 >
-              </b-form-group>
-
-              <b-form-group
-                id="input-group-8"
-                label="Nombre de tu contacto de emergencia:"
-                label-for="input-8"
-              >
-                <b-form-input
-                  id="input-8"
-                  v-model="$v.form.nombre_contacto_emergencia.$model"
-                  :state="validateState('nombre_contacto_emergencia')"
-                  placeholder="Ingresa el nombre de tu contacto de emergencia"
-                ></b-form-input>
-                <b-form-invalid-feedback id="input-1-live-feedback"
-                  >Este es un campo obligatorio, no debe contener numeros y debe
-                  contener al menos 3 letras.</b-form-invalid-feedback
+                  <b-form-input
+                    id="input-8"
+                    v-model="$v.form.nombre_contacto_emergencia.$model"
+                    :state="validateState('nombre_contacto_emergencia')"
+                    placeholder="Ingresa el nombre de tu contacto de emergencia"
+                  ></b-form-input>
+                  <b-form-invalid-feedback id="input-1-live-feedback"
+                    >Este es un campo obligatorio, no debe contener números y
+                    debe contener al menos 3 letras.</b-form-invalid-feedback
+                  >
+                </b-form-group>
+                <b-form-group
+                  id="input-group-7"
+                  label="Teléfono de emergencia:"
+                  label-for="input-7"
                 >
-              </b-form-group>
+                  <b-form-input
+                    v-mask="maskphone"
+                    id="input-7"
+                    v-model="$v.form.numero_emergencia.$model"
+                    :state="validateState('numero_emergencia')"
+                    placeholder="Ingresa tu teléfono para emergencias"
+                  ></b-form-input>
+                  <b-form-invalid-feedback id="input-1-live-feedback"
+                    >Este es un campo obligatorio y debe contener 10
+                    dígitos.</b-form-invalid-feedback
+                  >
+                </b-form-group>
+              </div>
+            </tab-content>
+          </form-wizard>
         </div>
-    </tab-content>
-  </form-wizard>
-</div>
       </div>
     </div>
     <!-- MOSTRAMOS QR DE EXITO-->
     <div v-if="insert">
       <div class="container my-6">
-
-            <div class="form-group">
-              Tu registro a
-              <h4>"{{ this.nombre_visita }}"</h4>
-              que se llevará a cabo del :
-              <h4>{{ this.fecha_inicio }}</h4>
-              al 
-              <br/>
-              <h4>{{ this.fecha_fin }}</h4>
-              ha sido exitoso, favor de mostrar el siguiente QR al entrar:
-              <!-- <h4><a v-bind:href="this.url_visitante_id"></a>
+        <div class="form-group">
+          Tu registro a
+          <h4>"{{ this.nombre_visita }}"</h4>
+          que se llevará a cabo del :
+          <h4>{{ this.fecha_inicio }}</h4>
+          al
+          <br />
+          <h4>{{ this.fecha_fin }}</h4>
+          ha sido exitoso, favor de mostrar el siguiente QR al entrar:
+          <!-- <h4><a v-bind:href="this.url_visitante_id"></a>
               </h4> -->
-              <img :src="'data:image/jpeg;base64,' + img_data" />
-            </div>
+          <img :src="'data:image/jpeg;base64,' + img_data" />
+        </div>
       </div>
     </div>
 
-
-
-  <modal
+    <modal
       name="modal-pasos"
       :clickToClose="false"
       :reset="true"
       :width="480"
       :height="245"
     >
-        <div class="card-header">Información</div>
-        <div class="card-body">
-          <div class="form-group">
-            <h6>
-              {{mensajemodal}}
-            </h6>
-          </div>
-          <div class="form-group my-4" style="text-align: right">
-            <b-button
-              variant="info"
-              @click="closeModalPasos"
-              >Aceptar</b-button
-            >
-          </div>
+      <div class="card-header">Información</div>
+      <div class="card-body">
+        <div class="form-group">
+          <h6>
+            {{ mensajemodal }}
+          </h6>
         </div>
- </modal><!-- ends modal-->
+        <div class="form-group my-4" style="text-align: right">
+          <b-button variant="info" @click="closeModalPasos">Aceptar</b-button>
+        </div>
+      </div> </modal
+    ><!-- ends modal-->
   </div>
 </template>
 
 
 
 <script>
-import {FormWizard, TabContent} from 'vue-form-wizard'
-import 'vue-form-wizard/dist/vue-form-wizard.min.css'
+import { FormWizard, TabContent } from "vue-form-wizard";
+import "vue-form-wizard/dist/vue-form-wizard.min.css";
 import Vue from "vue";
 import store from "../store";
 import "vue-step-wizard/dist/vue-step-wizard.css";
@@ -483,12 +488,26 @@ export default {
   mixins: [validationMixin],
   components: {
     FormWizard,
-    TabContent
+    TabContent,
   },
-   data() {
+  data() {
     return {
       ayuda: "",
-      maskphone: ['(', /\d/, /\d/, ') ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
+      maskphone: [
+        "(",
+        /\d/,
+        /\d/,
+        ") ",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+        "-",
+        /\d/,
+        /\d/,
+        /\d/,
+        /\d/,
+      ],
       mensajemodal: "",
       nombre_visita: "",
       fecha_inicio: "",
@@ -497,10 +516,12 @@ export default {
       generos: [{ text: "Seleccionar", value: null }, "Masculino", "Femenino"],
       isCameraOpen: false,
       isCameraOpen2: false,
-      canvasHeightVideo: 470,
-      canvasWidthVideo: 470,
-      canvasHeightFoto: 250,
-      canvasWidthFoto: 250,
+      canvasHeight: "90%",
+      canvasWidth: "90%",
+      /* canvasHeightVideo: 470,
+      canvasWidthVideo: 470, */
+      canvasHeightFoto: "250",
+      canvasWidthFoto: "250",
       items: null,
       match: "",
       mostrarForm: true,
@@ -521,13 +542,13 @@ export default {
       segundopaso: false,
       infovisitante_for_fast: null,
       infovisitante: {
-         "id_visitante": "this.infovisitante.id_visitante",
-        "NOMBRE": "this.infovisitante.nombre",
+        id_visitante: "this.infovisitante.id_visitante",
+        NOMBRE: "this.infovisitante.nombre",
         "APELLIDO PATERNO": "this.infovisitante.apellido_paterno",
         "APELLIDO MATERNO": "this.infovisitante.apellido_materno",
         "TELEFONO CELULAR": "this.infovisitante.telefono_celular",
         "TELEFONO PARTICULAR": "this.infovisitante.telefono_particular",
-        "EMAIL": "this.infovisitante.email",
+        EMAIL: "this.infovisitante.email",
         "NOMBRE CONTACTO DE EMERGENCIA":
           "this.infovisitante.nombre_contacto_emergencia",
         "NUMERO DE EMERGENCIA": "this.infovisitante.numero_emergencia",
@@ -554,7 +575,7 @@ export default {
       },
     };
   },
-    validations: {
+  validations: {
     form: {
       nombre: { required, minLength: minLength(3) },
       apellido_paterno: { required, alpha, minLength: minLength(3) },
@@ -613,7 +634,7 @@ export default {
   created() {
     this.obtenerinfoVisita();
   },
-  
+
   methods: {
     validateState(nombre) {
       const { $dirty, $error } = this.$v.form[nombre];
@@ -624,17 +645,16 @@ export default {
       return $dirty ? !$error : null;
     },
     async postRespuesta() {
-      const path_validacion_rostro_identificacion = "/api/validacion-rostro-identificacion"
-      await axios 
-        .post(
-          path_validacion_rostro_identificacion,
-          this.form2
-        )
+      const path_validacion_rostro_identificacion =
+        "/api/validacion-rostro-identificacion";
+      await axios
+        .post(path_validacion_rostro_identificacion, this.form2)
         .then((response) => {
           console.log(response.data);
           this.uuid_visitante = response.data.uuid_visitante;
           this.ruta_imagen_rostro = response.data.ruta_imagen_rostro;
-          this.ruta_imagen_identificacion = response.data.ruta_imagen_identificacion;
+          this.ruta_imagen_identificacion =
+            response.data.ruta_imagen_identificacion;
           this.mensaje = response.data.mensaje;
           this.match = response.data.match;
           this.toggleCamera();
@@ -656,14 +676,10 @@ export default {
         });
     },
     obtenerinfoVisita() {
-      const path_detalle_visita = "/api/detalle-visita/"
+      const path_detalle_visita = "/api/detalle-visita/";
       console.log(this.$route.params.id_detalle_visita);
       axios
-        .get(
-          path_detalle_visita +
-            this.$route.params.id_detalle_visita,
-          {}
-        )
+        .get(path_detalle_visita + this.$route.params.id_detalle_visita, {})
         .then((response) => {
           this.nombre_visita = response.data.nombre_visita;
           this.fecha_inicio = response.data.fecha_inicio;
@@ -713,7 +729,9 @@ export default {
             type: "error",
             duration: 8000,
           });
-          console.log("Browser doesn't support or there is some errors." + error);
+          console.log(
+            "Browser doesn't support or there is some errors." + error
+          );
         });
     },
     stopCameraStream() {
@@ -773,7 +791,9 @@ export default {
             type: "error",
             duration: 8000,
           });
-          console.log("Browser doesn't support or there is some errors." + error);
+          console.log(
+            "Browser doesn't support or there is some errors." + error
+          );
         });
     },
     addToPhotoGallery(dataURI) {
@@ -810,7 +830,7 @@ export default {
       }, FLASH_TIMEOUT);
     },
     onSubmit() {
-      const path_visitantes_visita = "/api/visitantes/visita"
+      const path_visitantes_visita = "/api/visitantes/visita";
       this.form.email = this.form3.email;
       this.form.uuid_visitante = this.uuid_visitante;
       this.form.ruta_imagen_rostro = this.ruta_imagen_rostro;
@@ -818,7 +838,7 @@ export default {
       console.log(this.form);
       axios
         .post(path_visitantes_visita, this.form)
-        .then(response => {
+        .then((response) => {
           this.uuid_visitante = response.data.uuid_visitante;
           /* this.ayuda = response.data.id_visita
           this.url_visitante_id = this.url_visitante+this.ayuda; */
@@ -842,13 +862,13 @@ export default {
         });
     },
     onSubmitFast() {
-      const path_visitantes_visita_rapida = "/api/visitantes/visita-rapida"
+      const path_visitantes_visita_rapida = "/api/visitantes/visita-rapida";
       this.form.id_detalle_visita = this.$route.params.id_detalle_visita;
       this.form.uuid_visitante = this.infovisitante_for_fast.uuid_visitante;
       this.form.email = this.infovisitante_for_fast.email;
       axios
         .post(path_visitantes_visita_rapida, this.form)
-        .then(response => {
+        .then((response) => {
           this.uuid_visitante = response.data.uuid_visitante;
           /* this.ayuda = response.data.id_visita
           this.url_visitante_id = this.url_visitante + this.ayuda; */
@@ -873,12 +893,12 @@ export default {
         });
     },
     buscaInfoPrevia() {
-      const path_visitantes_correo = "/api/visitantes/correo"
+      const path_visitantes_correo = "/api/visitantes/correo";
       if (this.form3.email) {
         axios
           .post(path_visitantes_correo, this.form3, {})
           .then((response) => {
-              this.infovisitante_for_fast = response.data; 
+            this.infovisitante_for_fast = response.data;
             console.log(
               "VIENDO INFORMACION COMPLETA DEL VISITANTE = " +
                 this.infovisitante.id_visitante
@@ -886,27 +906,33 @@ export default {
             console.log(this.infovisitante);
             this.infovisitante["id_visitante"] = response.data.id_visitante;
             this.infovisitante["NOMBRE"] = response.data.nombre;
-            this.infovisitante["APELLIDO PATERNO"] = response.data.apellido_paterno;
-            this.infovisitante["APELLIDO MATERNO"] = response.data.apellido_materno;
-            this.infovisitante["TELEFONO CELULAR"] = response.data.telefono_celular;
-            this.infovisitante["TELEFONO PARTICULAR"] = response.data.telefono_particular;
+            this.infovisitante["APELLIDO PATERNO"] =
+              response.data.apellido_paterno;
+            this.infovisitante["APELLIDO MATERNO"] =
+              response.data.apellido_materno;
+            this.infovisitante["TELEFONO CELULAR"] =
+              response.data.telefono_celular;
+            this.infovisitante["TELEFONO PARTICULAR"] =
+              response.data.telefono_particular;
             this.infovisitante["EMAIL"] = response.data.email;
-            this.infovisitante["NOMBRE CONTACTO DE EMERGENCIA"] = response.data.nombre_contacto_emergencia;
-            this.infovisitante["NUMERO DE EMERGENCIA"] = response.data.numero_emergencia;
+            this.infovisitante["NOMBRE CONTACTO DE EMERGENCIA"] =
+              response.data.nombre_contacto_emergencia;
+            this.infovisitante["NUMERO DE EMERGENCIA"] =
+              response.data.numero_emergencia;
             this.closeInicio();
           })
           .catch((error) => {
-          this.mensaje_error =
-            "Existe un problema con el servidor. Intenta nuevamente.";
-          Vue.$toast.open({
-            message: this.mensaje_error,
-            type: "error",
-            duration: 8000,
+            this.mensaje_error =
+              "Existe un problema con el servidor. Intenta nuevamente.";
+            Vue.$toast.open({
+              message: this.mensaje_error,
+              type: "error",
+              duration: 8000,
+            });
+            console.log(this.mensaje_error);
+            console.log(error);
+            store.commit("setSession", {});
           });
-          console.log(this.mensaje_error);
-          console.log(error);
-          store.commit("setSession", {});
-        });
       } else {
         console.log("NO ENCONTRE NADA");
       }
@@ -914,7 +940,7 @@ export default {
     },
     getQR(mensaje) {
       const path_qr = "/api/imagen_QR";
-      const data = { "datos_para_qr": mensaje };
+      const data = { datos_para_qr: mensaje };
       axios
         .post(path_qr, data)
         .then((response) => {
@@ -992,72 +1018,78 @@ export default {
         this.mostrarDatosCorreo = true;
       }
     },
-   regresarInicio() {
-     this.openInicio();
-     this.mostrarForm1 = false;
+    regresarInicio() {
+      this.openInicio();
+      this.mostrarForm1 = false;
     },
-    onComplete(){
-    this.onSubmit();
-    this.mostrarForm1 = false;
+    onComplete() {
+      this.onSubmit();
+      this.mostrarForm1 = false;
     },
-   validateTabUno: function(){
-     if(this.primerpaso == true){
+    validateTabUno: function () {
+      if (this.primerpaso == true) {
         this.isCameraOpen2 = true;
         this.startCameraStream2();
-       return true
-     }else
-     this.mensajemodal = "Por favor toma una fotografia de tu Rostro para poder continuar" 
-     this.$modal.show("modal-pasos");
-     return false;
-   },
-  validateTabDos: async function(){
-     if(this.segundopaso == true){
-     await this.postRespuesta();
-     if(this.match == true ){
-       this.mensajemodal = this.mensaje;
-       this.$modal.show("modal-pasos");
-       return true
-     }else{
-       this.mensajemodal = this.mensaje;
-       this.$modal.show("modal-pasos");
-     }
-     }else 
-     this.mensajemodal = "Por favor toma una fotografia de tu Identificacion para poder continuar"
+        return true;
+      } else
+        this.mensajemodal =
+          "Por favor toma una fotografia de tu Rostro para poder continuar";
       this.$modal.show("modal-pasos");
-     return false;
-   },
-   validateTabTres: function(){
-     if(
+      return false;
+    },
+    validateTabDos: async function () {
+      if (this.segundopaso == true) {
+        await this.postRespuesta();
+        if (this.match == true) {
+          this.mensajemodal = this.mensaje;
+          this.$modal.show("modal-pasos");
+          return true;
+        } else {
+          this.mensajemodal = this.mensaje;
+          this.$modal.show("modal-pasos");
+        }
+      } else
+        this.mensajemodal =
+          "Por favor toma una fotografia de tu Identificacion para poder continuar";
+      this.$modal.show("modal-pasos");
+      return false;
+    },
+    validateTabTres: function () {
+      if (
         this.form.nombre &&
         this.form.nombre.length > 3 &&
         this.form.apellido_paterno &&
         this.form.apellido_paterno.length > 3 &&
         this.form.apellido_materno &&
         this.form.apellido_materno.length > 3 &&
-        this.form.genero){
+        this.form.genero
+      ) {
         return true;
-        }else{
-          this.mensajemodal= "Por favor llena todos los campos para poder contiuar"
-          this.$modal.show("modal-pasos");
-        }  
-   },
-      validateTabCuatro: function(){
-     if(
+      } else {
+        this.mensajemodal =
+          "Por favor llena todos los campos para poder continuar";
+        this.$modal.show("modal-pasos");
+      }
+    },
+    validateTabCuatro: function () {
+      if (
         this.form.telefono_celular &&
-        this.form.telefono_celular.length == 14 && 
+        this.form.telefono_celular.length == 14 &&
         this.form.telefono_particular &&
         this.form.telefono_particular.length == 14 &&
         this.form.numero_emergencia &&
         this.form.numero_emergencia.length == 14 &&
         this.form.nombre_contacto_emergencia &&
-        this.form.nombre_contacto_emergencia.length > 3){
+        this.form.nombre_contacto_emergencia.length > 3
+      ) {
         return true;
-        }else{
-          this.mensajemodal= "Por favor llena todos los campos para poder contiuar"
-          this.$modal.show("modal-pasos");
-        }  
-   }
-  }
+      } else {
+        this.mensajemodal =
+          "Por favor llena todos los campos para poder continuar";
+        this.$modal.show("modal-pasos");
+      }
+    },
+  },
 };
 </script>
 

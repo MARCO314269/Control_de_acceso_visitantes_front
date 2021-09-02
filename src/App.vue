@@ -52,6 +52,7 @@ html,body {
   width:100%;
   height:100%;
   background-color:#ffffff;
+  background-image: url('assets/loader-spinner.gif');
   background-repeat:no-repeat;
   background-position:center;
   z-index:10000000;
